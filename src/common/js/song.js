@@ -2,7 +2,7 @@ import {getLyric} from 'api/song'
 import {ERR_OK} from 'api/config'
 import {Base64} from 'js-base64'
 export default class Song {
-  constructor ({id, mid, singer, name, album, duration, image, url}) {
+  constructor ({id, mid, singer, name, album, duration, image, url}) {  // 可以看到里面有一个`constructor`方法，这就是构造方法
     this.id = id
     this.mid = mid
     this.singer = singer
@@ -17,7 +17,7 @@ export default class Song {
       return Promise.resolve(this.lyric)
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => { // Promise构造异步处理函数
       getLyric(this.mid).then((res) => {
         if (res.retcode === ERR_OK) {
           this.lyric = Base64.decode(res.lyric)

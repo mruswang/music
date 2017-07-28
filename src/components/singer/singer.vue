@@ -3,8 +3,6 @@
     <list-view :data="singers" @select="selectSinger" ref="list"></list-view>
     <router-view></router-view>
   </div>
-
-
 </template>
 
 <script type="text/ecmascript-6">

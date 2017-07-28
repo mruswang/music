@@ -4,7 +4,7 @@ import {commonParams, options} from './config'
 export function getSingerList () {
   const url = 'https://c.y.qq.com/v8/fcg-bin/v8.fcg'
 
-  const data = Object.assign({}, commonParams, {
+  const data = Object.assign({}, commonParams, {  // 方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象{}
     channel: 'singer',
     page: 'list',
     key: 'all_all_all',
