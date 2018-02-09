@@ -57,6 +57,7 @@
       _getTopList () {
         getTopList().then((res) => {
           if (res.code === ERR_OK) {
+            console.log(res)
             this.topList = res.data.topList
           }
         })

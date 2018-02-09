@@ -7,7 +7,7 @@
 <script type="text/ecmascript-6">
   import MusicList from 'components/music-list/music-list'
   import {mapGetters} from 'vuex'
-  import {getSongList} from 'api/recommend'
+  import {getRankList, getSongKey} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import {createSong} from 'common/js/song'
 
@@ -37,10 +37,12 @@
           this.$router.push('/recommend')
           return
         }
-        getSongList(this.disc.dissid).then((res) => {
-          if (res.code === ERR_OK) {
-            console.log(res.cdlist[0].songlist)
-            this.songs = this._normalizeSongs(res.cdlist[0].songlist)
+        getRankList(this.disc.dissid).then((res) => {
+          let data = res.substring(21, res.length - 1)
+          let newdata = JSON.parse(data)
+          if (newdata.code === ERR_OK) {
+            console.log(newdata)
+            this.songs = this._normalizeSongs(newdata.cdlist[0].songlist)
           }
         })
       },
@@ -48,7 +50,9 @@
         let ret = []
         list.forEach((musicData) => {
           if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
+            getSongKey(musicData.songmid).then((res) => {
+              ret.push(createSong(Object.assign(musicData, {vkey: res.data.items[0].vkey})))
+            })
           }
         })
         return ret

@@ -10,6 +10,7 @@
   import {mapGetters} from 'vuex'
   import {ERR_OK} from 'api/config'
   import {createSong} from 'common/js/song'
+  import {getSongKey} from 'api/recommend'
   export default {
     computed: {
       ...mapGetters([
@@ -49,7 +50,9 @@
         list.forEach((item) => {
           let {musicData} = item
           if (musicData.songid && musicData.albummid) {
-            ret.push(createSong(musicData))
+            getSongKey(musicData.songmid).then((res) => {
+              ret.push(createSong(Object.assign(musicData, {vkey: res.data.items[0].vkey})))
+            })
           }
         })
         return ret
